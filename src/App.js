@@ -18,49 +18,41 @@ const choice = {
   },
 };
 function App() {
-  const [userSelect, setUserSelect] = useState("");
-  const [computerSelect, setComputerSelect] = useState("");
+  const [userSelect, setUserSelect] = useState(null);
+  const [computerSelect, setComputerSelect] = useState(null);
   const [result, setResult] = useState("");
-  const [comResult, setComResult] = useState("");
 
   const play = (userChoice) => {
     setUserSelect(choice[userChoice]);
-
     let computerChoice = randomChoice();
     setComputerSelect(computerChoice);
-
-    setResult(judgement_user(choice[userChoice], computerChoice));
-    setComResult(judgement_com);
+    setResult(judgement(choice[userChoice], computerChoice));
   };
 
   const randomChoice = () => {
     let itemArray = Object.keys(choice);
-    let randomItem = Math.floor(Math.random() * itemArray.length);
-    let final = itemArray[randomItem];
 
+    let randomItem = Math.floor(Math.random() * itemArray.length);
+
+    let final = itemArray[randomItem];
     return choice[final];
   };
 
-  const judgement_user = (user, com) => {
+  const judgement = (user, com) => {
     if (user.name === com.name) {
-      return "Draw";
+      return "tie";
     } else if (user.name === "Rock")
-      return com.name === "Scissors" ? "Win" : "Lose";
+      return com.name === "Scissors" ? "win" : "lose";
     else if (user.name === "Scissors")
-      return com.name === "Paper" ? "Win" : "Lose";
-    else if (user.name === "Paper") return com.name === "Rock" ? "Win" : "Lose";
+      return com.name === "Paper" ? "win" : "lose";
+    else if (user.name === "Paper") return com.name === "Rock" ? "win" : "lose";
   };
 
-  const judgement_com = (resultOfUser) => {
-    if (resultOfUser == "Draw") return "Draw";
-    else if (resultOfUser == "Win") return "Lose";
-    else return "Win";
-  };
   return (
     <div>
       <div className="main">
         <Box title="You" item={userSelect} result={result} />
-        <Box title="Computer" item={computerSelect} result={comResult} />
+        <Box title="Computer" item={computerSelect} result={result} />
       </div>
       <div className="main">
         <button onClick={() => play("scissors")}>가위</button>
